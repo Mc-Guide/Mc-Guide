@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minecraft Master Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dirt: #8B6914;
+    --grass: #5D9E2F;
+    --stone: #8A8A8A;
+    --wood: #9B7B3A;
+    --diamond: #4DD9E8;
+    --gold: #F5C518;
+    --redstone: #FF3333;
+    --emerald: #17DD62;
+    --night: #0a0f1a;
+    --deep: #060d18;
+    --card: #111827;
+    --card2: #162032;
+    --text: #e8f4e8;
+    --muted: #8aab8a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Pixel background pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(93,158,47,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(93,158,47,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HERO ─────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background:
+      linear-gradient(to bottom, #0a0f1a 0%, #0d1f0d 60%, #0a1a2a 100%);
+    overflow: hidden;
+  }
+
+  .hero-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, white, transparent),
+      radial-gradient(1px 1px at 85% 25%, white, transparent),
+      radial-gradient(1px 1px at 55% 8%, white, transparent),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 70% 50%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(2px 2px at 20% 40%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 90% 70%, white, transparent),
+      radial-gradient(1px 1px at 45% 80%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 5% 90%, white, transparent),
+      radial-gradient(2px 2px at 60% 30%, rgba(77,217,232,0.6), transparent);
+    animation: twinkle 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+  }
+
+  /* Grass ground at bottom of hero — spikes only peek out below viewport */
+  .hero-ground {
+    position: absolute;
+    bottom: -52px; left: 0; right: 0;
+    height: 60px;
+    background: transparent;
+    overflow: visible;
+  }
+  .hero-ground::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 32px;
+    background: repeating-linear-gradient(90deg,
+      #5D9E2F 0px, #5D9E2F 30px,
+      #6cb835 30px, #6cb835 35px,
+      #5D9E2F 35px, #5D9E2F 65px,
+      #4a7d24 65px, #4a7d24 70px
+    );
+    opacity: 0.35;
+    clip-path: polygon(0% 100%, 2% 0%, 4% 100%, 6% 0%, 8% 100%, 10% 10%, 12% 100%, 14% 5%, 16% 100%, 18% 20%, 20% 100%, 22% 0%, 24% 100%, 26% 10%, 28% 100%, 30% 0%, 32% 100%, 34% 5%, 36% 100%, 38% 15%, 40% 100%, 42% 0%, 44% 100%, 46% 10%, 48% 100%, 50% 0%, 52% 100%, 54% 5%, 56% 100%, 58% 20%, 60% 100%, 62% 0%, 64% 100%, 66% 10%, 68% 100%, 70% 0%, 72% 100%, 74% 5%, 76% 100%, 78% 15%, 80% 100%, 82% 0%, 84% 100%, 86% 10%, 88% 100%, 90% 5%, 92% 100%, 94% 20%, 96% 100%, 98% 0%, 100% 100%);
+  }
+
+  .hero-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(1.8rem, 5vw, 4rem);
+    color: #fff;
+    text-shadow:
+      4px 4px 0 #2d5a1b,
+      -2px -2px 0 #1a3a0d,
+      0 0 40px rgba(93,158,47,0.6);
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    position: relative;
+    animation: heroIn 1s ease-out;
+  }
+
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-sub {
+    font-family: 'VT323', monospace;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    color: var(--grass);
+    letter-spacing: 3px;
+    margin-bottom: 2.5rem;
+    animation: heroIn 1s ease-out 0.2s both;
+  }
+
+  .hero-creeper {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(93,158,47,0.5));
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .nav-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    animation: heroIn 1s ease-out 0.4s both;
+    position: relative;
+    z-index: 1;
+  }
+
+  .nav-pill {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--grass);
+    color: var(--grass);
+    background: rgba(93,158,47,0.1);
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-pill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--grass);
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+    z-index: -1;
+  }
+
+  .nav-pill:hover { color: #000; }
+  .nav-pill:hover::before { transform: translateX(0); }
+
+  /* ─── SECTIONS ──────────────────────────── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: var(--grass);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    color: #fff;
+    margin-bottom: 3rem;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+    line-height: 1.6;
+  }
+
+  .section-divider {
+    height: 4px;
+    background: repeating-linear-gradient(90deg,
+      var(--grass) 0px, var(--grass) 16px,
+      transparent 16px, transparent 20px
+    );
+    margin: 0 0 1rem 0;
+    border: none;
+  }
+
+  /* ─── CARDS ─────────────────────────────── */
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+
+  .card {
+    background: var(--card);
+    border: 2px solid rgba(93,158,47,0.2);
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--grass), var(--diamond));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .card:hover { border-color: rgba(93,158,47,0.6); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(93,158,47,0.15); }
+  .card:hover::after { transform: scaleX(1); }
+
+  .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+
+  .card-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.65rem;
+    color: var(--grass);
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #b0c8b0;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.45rem;
+    padding: 0.3rem 0.6rem;
+    background: rgba(93,158,47,0.15);
+    border: 1px solid rgba(93,158,47,0.4);
+    color: var(--grass);
+    margin-top: 0.8rem;
+    margin-right: 0.3rem;
+  }
+
+  .tag.diamond { background: rgba(77,217,232,0.1); border-color: rgba(77,217,232,0.4); color: var(--diamond); }
+  .tag.gold { background: rgba(245,197,24,0.1); border-color: rgba(245,197,24,0.4); color: var(--gold); }
+  .tag.red { background: rgba(255,51,51,0.1); border-color: rgba(255,51,51,0.4); color: var(--redstone); }
+
+  /* ─── SEEDS ─────────────────────────────── */
+  .seed-card {
+    background: var(--card);
+    border: 2px solid rgba(245,197,24,0.2);
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .seed-card:hover { border-color: rgba(245,197,24,0.5); transform: translateY(-4px); }
+
+  .seed-code-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .seed-copy-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.35);
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .seed-copy-btn:hover {
+    background: var(--gold);
+    color: #000;
+  }
+
+  .seed-copy-btn.copied {
+    background: rgba(93,158,47,0.2);
+    border-color: var(--grass);
+    color: var(--grass);
+  }
+
+  .seed-code {
+    font-family: 'VT323', monospace;
+    font-size: 1.8rem;
+    color: var(--gold);
+    background: rgba(245,197,24,0.08);
+    border: 1px solid rgba(245,197,24,0.2);
+    padding: 0.4rem 0.8rem;
+    display: inline-block;
+    letter-spacing: 2px;
+  }
+
+  .seed-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: #fff;
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+  }
+
+  /* ─── CRAFTING ──────────────────────────── */
+  .craft-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .craft-card {
+    background: var(--card);
+    border: 2px solid rgba(138,138,138,0.2);
+    padding: 1.2rem;
+    transition: all 0.3s;
+  }
+
+  .craft-card:hover { border-color: rgba(138,138,138,0.5); transform: translateY(-3px); }
+
+  .craft-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Real Minecraft crafting table layout */
+  .recipe-area {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .craft-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 40px);
+    grid-template-rows: repeat(3, 40px);
+    gap: 3px;
+    background: #373737;
+    padding: 4px;
+    border: 2px solid #555;
+  }
+
+  .slot {
+    width: 40px;
+    height: 40px;
+    background: #8B8B8B;
+    border: 2px solid #373737;
+    border-top-color: #555;
+    border-left-color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slot img {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+  }
+
+  .slot.empty { background: #6B6B6B; }
+
+  .craft-arrow {
+    font-size: 1.5rem;
+    color: #888;
+    flex-shrink: 0;
+  }
+
+  .result-slot {
+    width: 56px;
+    height: 56px;
+    background: #8B8B8B;
+    border: 2px solid #373737;
+    border-top-color: #555;
+    border-left-color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .result-slot img {
+    width: 44px;
+    height: 44px;
+    image-rendering: pixelated;
+  }
+
+  .slot, .result-slot { display: flex; align-items: center; justify-content: center; }
+  .slot span, .result-slot span { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+
+  .craft-desc {
+    font-size: 0.8rem;
+    color: #8a9a8a;
+    margin-top: 0.7rem;
+    line-height: 1.5;
+  }
+
+  /* ─── BUILDS ─────────────────────────────── */
+  .build-card {
+    background: var(--card);
+    border: 2px solid rgba(77,217,232,0.15);
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .build-card:hover { border-color: rgba(77,217,232,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(77,217,232,0.08); }
+
+  .build-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+  .build-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.65rem;
+    color: var(--diamond);
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+  }
+
+  .build-diff {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    padding: 0.15rem 0.5rem;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+  }
+
+  .diff-easy { background: rgba(93,158,47,0.2); color: var(--grass); }
+  .diff-med { background: rgba(245,197,24,0.2); color: var(--gold); }
+  .diff-hard { background: rgba(255,51,51,0.2); color: var(--redstone); }
+
+  /* ─── FARMS ─────────────────────────────── */
+  .farm-card {
+    background: var(--card);
+    border: 2px solid rgba(255,51,51,0.15);
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .farm-card:hover { border-color: rgba(255,51,51,0.4); transform: translateY(-4px); }
+
+  .farm-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.6rem;
+    color: var(--redstone);
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+  }
+
+  /* ─── PROGRESS BAR ──────────────────────── */
+  .progress-wrap { margin: 0.5rem 0; }
+  .progress-label {
+    font-family: 'VT323', monospace;
+    font-size: 0.95rem;
+    color: #8aab8a;
+    margin-bottom: 0.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .progress-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--grass), var(--diamond));
+    transition: width 1s ease;
+  }
+
+  /* ─── FOOTER ─────────────────────────────── */
+  footer {
+    background: #060d18;
+    border-top: 2px solid rgba(93,158,47,0.2);
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer p {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
+    color: #4a6a4a;
+    line-height: 2;
+  }
+
+  /* ─── SCROLLBAR ─────────────────────────── */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--deep); }
+  ::-webkit-scrollbar-thumb { background: var(--grass); }
+
+  /* ─── TAB SYSTEM ────────────────────────── */
+  .tab-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid rgba(93,158,47,0.2);
+    padding-bottom: 0.5rem;
+  }
+
+  .tab-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    border: 2px solid transparent;
+    background: transparent;
+    color: #4a6a4a;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    border-color: var(--grass);
+    color: var(--grass);
+    background: rgba(93,158,47,0.1);
+  }
+
+  .tab-btn:hover { color: var(--grass); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: grid; }
+
+  /* ─── SECTION WRAPPER ───────────────────── */
+  .section-wrapper {
+    background: linear-gradient(to bottom, rgba(10,15,26,0) 0%, rgba(10,15,26,0.6) 100%);
+    padding: 4rem 0;
+    margin: 0;
+  }
+
+  /* Sticky nav */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(6,13,24,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(93,158,47,0.2);
+    padding: 0.7rem 2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .sticky-nav a {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.45rem;
+    color: #4a7a4a;
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    transition: color 0.2s;
+  }
+
+  .sticky-nav a:hover { color: var(--grass); }
+
+  /* ── YouTube Tutorial Modal ─────────────────────────────────────── */
+  .yt-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+  .yt-modal-overlay.open { display: flex; }
+
+  .yt-modal {
+    background: #0f172a;
+    border: 2px solid rgba(255,51,51,0.4);
+    border-radius: 4px;
+    padding: 1rem;
+    width: 90%;
+    max-width: 860px;
+    position: relative;
+    animation: ytPop 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes ytPop {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .yt-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+  }
+  .yt-modal-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55rem;
+    color: var(--redstone);
+    letter-spacing: 2px;
+  }
+  .yt-modal-close {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
+    background: rgba(255,51,51,0.15);
+    border: 1px solid rgba(255,51,51,0.4);
+    color: var(--redstone);
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .yt-modal-close:hover { background: var(--redstone); color:#fff; }
+
+  .yt-iframe-wrap {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .yt-iframe-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .yt-no-video {
+    padding: 3rem 1rem;
+    text-align: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
+    color: #4a6a4a;
+    line-height: 2;
+  }
+
+  /* Watch button on farm cards */
+  .watch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.9rem;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.42rem;
+    padding: 0.5rem 0.9rem;
+    background: rgba(255,51,51,0.1);
+    border: 1px solid rgba(255,51,51,0.35);
+    color: var(--redstone);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+  .watch-btn:hover {
+    background: var(--redstone);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255,51,51,0.3);
+  }
+  .watch-btn .play-icon { font-size: 0.8rem; }
+
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─────────────────────────────── -->
+<section class="hero">
+  <div class="hero-stars"></div>
+  <div class="hero-creeper">🟢</div>
+  <h1 class="hero-title">MINECRAFT<br>MASTER GUIDE</h1>
+  <p class="hero-sub">⛏ SURVIVE · BUILD · CONQUER ⛏</p>
+  <div class="nav-pills">
+    <a class="nav-pill" href="#seeds">🌱 SEEDS</a>
+    <a class="nav-pill" href="#builds">🏗 BUILDS</a>
+    <a class="nav-pill" href="#farms">⚙ FARMS</a>
+    <a class="nav-pill" href="#crafting">🔨 CRAFTING</a>
+  </div>
+  <div class="hero-ground"></div>
+</section>
+
+<!-- ─── STICKY NAV ─────────────────────── -->
+<nav class="sticky-nav">
+  <a href="#seeds">🌾 BEST SEEDS</a>
+  <a href="#builds">🏰 3D BUILDS</a>
+  <a href="#farms">🔴 FARMS</a>
+  <a href="#crafting">🔨 CRAFTING</a>
+</nav>
+
+<!-- ─── SEEDS ──────────────────────────── -->
+<div id="seeds" class="section-wrapper">
+<section>
+  <div class="section-label">▶ SECTION 01</div>
+  <h2 class="section-title">BEST MINECRAFT SEEDS</h2>
+  <hr class="section-divider">
+
+  <!-- Seed tab switcher -->
+  <style>
+    .seed-tabs { display:flex; gap:.6rem; margin-bottom:2.2rem; flex-wrap:wrap; }
+    .seed-tab-btn {
+      font-family:'Press Start 2P',monospace; font-size:.5rem;
+      padding:.6rem 1.2rem; border:2px solid rgba(255,255,255,.15);
+      background:transparent; color:#6a8a6a; cursor:pointer; transition:all .2s;
+    }
+    .seed-tab-btn.active-java  { border-color:#4DD9E8; color:#4DD9E8; background:rgba(77,217,232,.08); }
+    .seed-tab-btn.active-bedrock { border-color:#F5C518; color:#F5C518; background:rgba(245,197,24,.08); }
+    .seed-tab-btn:hover { color:#fff; border-color:#fff; }
+    .seed-panel-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    .seed-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(100%);
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease;
+    }
+    .seed-panel.active {
+      position: relative;
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+    .seed-panel.slide-out-left  { transform: translateX(-100%); opacity: 0; }
+    .seed-panel.slide-out-right { transform: translateX(100%);  opacity: 0; }
+    .seed-panel.slide-in-left   { transform: translateX(-100%); opacity: 0; }
+    .seed-panel.slide-in-right  { transform: translateX(100%);  opacity: 0; }
+    .seed-edition-badge {
+      display:inline-block; font-family:'Press Start 2P',monospace;
+      font-size:.45rem; padding:.35rem .8rem; margin-bottom:1.5rem;
+      border-radius:2px;
+    }
+    .badge-java    { background:rgba(77,217,232,.12); border:1px solid #4DD9E8; color:#4DD9E8; }
+    .badge-bedrock { background:rgba(245,197,24,.12); border:1px solid #F5C518; color:#F5C518; }
+  </style>
+
+  <div class="seed-tabs">
+    <button class="seed-tab-btn active-bedrock" onclick="showSeeds('bedrock',this)">🟡 BEDROCK — v26.20</button>
+    <button class="seed-tab-btn" onclick="showSeeds('java',this)">🔵 JAVA — 1.21.11</button>
+  </div>
+
+  <!-- ══ BEDROCK SEEDS ══ -->
+  <div class="seed-panel-wrap">
+  <div id="seed-panel-bedrock" class="seed-panel active">
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-bedrock">BEDROCK v26.20</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">302304127329527063</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '302304127329527063')">📋 COPY</button>
+        </div>
+      <div class="seed-title">FOUR VILLAGES AT SPAWN</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Four villages cluster near spawn across plains and savanna biomes. Ideal for building a trading empire from day one. A jungle temple sits to the east with bonus loot, and a Ruined Portal is within 200 blocks for immediate Nether access. One of the most resource-rich starts in Bedrock 26.x.</p>
+      <span class="tag gold">4 Villages</span>
+      <span class="tag">Survival</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-bedrock">BEDROCK v26.20</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">486362209</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '486362209')">📋 COPY</button>
+        </div>
+      <div class="seed-title">DESERT VILLAGE MEGASEED</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Multiple desert villages and two desert pyramids all within 300 blocks of spawn. Easy iron access from blacksmith chests and massive early loot from the pyramids. Underground mineshafts run below. Village 1 at x:-192, z:32 · Village 2 at x:-144, z:-176 · Desert Temple at x:-136, z:24.</p>
+      <span class="tag gold">Multi-Village</span>
+      <span class="tag red">OP Loot</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-bedrock">BEDROCK v26.20</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">4623495455290388884</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '4623495455290388884')">📋 COPY</button>
+        </div>
+      <div class="seed-title">SAVANNA CRATER OVERLOOK</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Spawn overlooking a dramatic savanna crater with a lake at the bottom and waterfall cliffs cascading down. A village sits on the crater rim at x:128, z:256, giving you one of the most breathtaking base locations in any Bedrock seed. Rated ★★★★★ for long-term build potential.</p>
+      <span class="tag diamond">Scenic Build</span>
+      <span class="tag gold">★★★★★</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-bedrock">BEDROCK v26.20</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">4172621082</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '4172621082')">📋 COPY</button>
+        </div>
+      <div class="seed-title">MANGROVE + MUSHROOM + PALE GARDEN</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Three of Minecraft's rarest biomes — Mangrove Swamp, Mushroom Fields, and Pale Garden — all exist within 1,500 blocks of each other. No hostile mobs on the Mushroom Island. Pale Garden provides Creaking wood. Perfect for players who want to experience all modern biomes from one world.</p>
+      <span class="tag diamond">Rare Biomes</span>
+      <span class="tag">No Mobs Island</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-bedrock">BEDROCK v26.20</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">-6018321323546593994</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '-6018321323546593994')">📋 COPY</button>
+        </div>
+      <div class="seed-title">RING RIVER & MUSHROOM ISLAND</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">A unique circular river formation creates a natural island base location. Just offshore sits a Mushroom Fields biome — completely hostile-mob-free. Shipwrecks and ocean ruins dot the surrounding waters for early loot. One of the best defensive natural base seeds available on Bedrock.</p>
+      <span class="tag diamond">Natural Base</span>
+      <span class="tag">Mushroom Island</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-bedrock">BEDROCK v26.20</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">1858887768752840034</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '1858887768752840034')">📋 COPY</button>
+        </div>
+      <div class="seed-title">GIANT GORGE WORLD</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">A massive exposed gorge slices through multiple biomes near spawn, revealing ores, lush caves, and dripstone caverns on its walls. The gorge walls expose iron and coal from the surface. Badlands and jungle meet at the gorge edges. Incredible natural landmark for a cliffside megabase.</p>
+      <span class="tag red">Exposed Gorge</span>
+      <span class="tag diamond">Megabase Spot</span>
+    </div>
+
+  </div>
+
+  <!-- ══ JAVA SEEDS ══ -->
+  <div id="seed-panel-java" class="seed-panel">
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-java">JAVA 1.21.11</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">8486672581758651406</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '8486672581758651406')">📋 COPY</button>
+        </div>
+      <div class="seed-title">EXCAVATED MOUNTAIN</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Spawn inside a roofed Dark Oak forest with a cliffside cave entrance at x:17, y:79, z:39. The cave is packed with early-game minerals and is large enough to build a beautiful cavernous home inside. Directly above the cavern is a massive Pale Oak Forest — one of the most sought-after biomes in 1.21.11.</p>
+      <span class="tag diamond">Pale Garden</span>
+      <span class="tag">Cave Base</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-java">JAVA 1.21.11</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">-7775094310068025774</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '-7775094310068025774')">📋 COPY</button>
+        </div>
+      <div class="seed-title">GRAND CANYON MESA</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Spawn inside a stunning canyon at the heart of a Mesa (Badlands) biome. A large cavern accessible below spawn provides early minerals. Biomes in every direction supply different wood types. Desert village to the north-east at x:228, y:80, z:-319 for villager trading. Jaw-dropping scenery.</p>
+      <span class="tag gold">Mesa Canyon</span>
+      <span class="tag diamond">Scenic</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-java">JAVA 1.21.11</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">1401374351468221841</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '1401374351468221841')">📋 COPY</button>
+        </div>
+      <div class="seed-title">ICY PEAKS + ANCIENT CITY</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Spawn surrounded by massive jagged snow-capped peaks with mineral-rich cave entrances on every slope. Village just west at x:-150, y:115, z:100. Ancient City directly below the peaks at x:4, y:-38, z:253 — perfect late-game goal. Head east for forest and taiga biomes for wood variety.</p>
+      <span class="tag red">Ancient City</span>
+      <span class="tag diamond">Snowy Peaks</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-java">JAVA 1.21.11</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">4504535438041489910</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '4504535438041489910')">📋 COPY</button>
+        </div>
+      <div class="seed-title">PERFECT PLAINS + CHERRY GROVE</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Spawn in a flat open plains biome — ideal building land. Two villages close by: Village 1 at x:-352, y:111, z:160 and Village 2 at x:112, y:114, z:400. Behind the second village is a stunning Cherry Blossom biome ready for all your cherry wood needs. Best seed for a peaceful mega-base.</p>
+      <span class="tag diamond">Cherry Grove</span>
+      <span class="tag gold">2 Villages</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-java">JAVA 1.21.11</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">-7417157268905316998</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '-7417157268905316998')">📋 COPY</button>
+        </div>
+      <div class="seed-title">TRIAL CHAMBER UNDER SPAWN</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Village at x:315, z:343 with a Ruined Portal directly inside it at x:297, z:340. A Trial Chamber sits under spawn at x:294, y:2, z:290 — fight Breezes for Wind Charges and Ominous Keys from Vaults. Ocean Ruins at x:435, z:661. Rated ★★★★★ for survival longevity.</p>
+      <span class="tag gold">Trial Chamber</span>
+      <span class="tag red">★★★★★</span>
+    </div>
+
+    <div class="seed-card">
+      <span class="seed-edition-badge badge-java">JAVA 1.21.11</span>
+      <div class="seed-code-wrap">
+          <div class="seed-code">4571223105962777273</div>
+          <button class="seed-copy-btn" onclick="copySeed(this, '4571223105962777273')">📋 COPY</button>
+        </div>
+      <div class="seed-title">DESERT SURVIVAL — 2 TEMPLES</div>
+      <p style="color:#b0c8b0;font-size:.9rem;line-height:1.7">Spawn in a desert with only one tree — hardcore challenge mode. Two desert pyramids packed with loot are visible nearby: Temple 1 at x:554, y:73, z:-181 · Temple 2 at x:314, y:71, z:-325. Desert village north-west at x:220, y:86, z:-388 for safety. Brilliant for challenge runners.</p>
+      <span class="tag red">Hard Start</span>
+      <span class="tag gold">2 Temples</span>
+    </div>
+
+  </div>
+  </div><!-- end seed-panel-wrap -->
+
+</section>
+</div>
+
+<script>
+function showSeeds(edition, btn) {
+  const panels = document.querySelectorAll('.seed-panel');
+  const current = document.querySelector('.seed-panel.active');
+  const next = document.getElementById('seed-panel-' + edition);
+
+  if (!current || current === next) return;
+
+  // Bedrock is index 0 (left), Java is index 1 (right)
+  const order = ['bedrock','java'];
+  const currentIdx = order.indexOf(current.id.replace('seed-panel-',''));
+  const nextIdx    = order.indexOf(edition);
+  const goingRight = nextIdx > currentIdx;
+
+  // Slide current out
+  current.classList.remove('active');
+  current.classList.add(goingRight ? 'slide-out-left' : 'slide-out-right');
+
+  // Position next panel off-screen on the correct side
+  next.classList.add(goingRight ? 'slide-in-right' : 'slide-in-left');
+
+  // Force reflow
+  next.offsetHeight;
+
+  // Slide next in
+  requestAnimationFrame(() => {
+    next.classList.remove('slide-in-right','slide-in-left');
+    next.classList.add('active');
+  });
+
+  // Clean up outgoing panel after animation
+  setTimeout(() => {
+    current.classList.remove('slide-out-left','slide-out-right');
+  }, 460);
+
+  // Update buttons
+  document.querySelectorAll('.seed-tab-btn').forEach(b => b.classList.remove('active-java','active-bedrock'));
+  btn.classList.add('active-' + edition);
+}
+</script>
+
+<!-- ─── BUILDS ─────────────────────────── -->
+<div id="builds" class="section-wrapper">
+<section>
+  <div class="section-label">▶ SECTION 02</div>
+  <h2 class="section-title">3D BUILD IDEAS</h2>
+  <hr class="section-divider">
+
+  <div class="grid-3">
+
+    <div class="build-card">
+      <div class="build-icon">🏰</div>
+      <div class="build-title">MEDIEVAL CASTLE</div>
+      <span class="build-diff diff-hard">⭐⭐⭐ HARD</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Use Stone Bricks, Cobblestone and Deepslate. Build 4 corner towers with battlements. Add a drawbridge over water, a throne room, and a great hall. Add mossy/cracked bricks for weathering.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>8-12hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:90%"></div></div>
+      </div>
+      <span class="tag">Stone Brick</span>
+      <span class="tag diamond">Deepslate</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🌲</div>
+      <div class="build-title">TREEHOUSE VILLAGE</div>
+      <span class="build-diff diff-med">⭐⭐ MEDIUM</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Build multiple houses connected by rope bridges high in the jungle canopy. Use Jungle Wood, Bamboo planks and Mangrove for color variety. Add hanging lanterns and vines for ambiance.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>4-6hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+      </div>
+      <span class="tag">Jungle Wood</span>
+      <span class="tag">Bamboo</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🚀</div>
+      <div class="build-title">SPACE STATION</div>
+      <span class="build-diff diff-hard">⭐⭐⭐ HARD</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Build in the sky using Iron Blocks, Quartz, and Glass panes. Create a circular ring structure with a central hub. Add solar panels from Black Stained Glass and observation decks.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>10-15hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:95%"></div></div>
+      </div>
+      <span class="tag diamond">Iron Block</span>
+      <span class="tag">Quartz</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🐉</div>
+      <div class="build-title">DRAGON STATUE</div>
+      <span class="build-diff diff-hard">⭐⭐⭐ HARD</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Sculpt a massive dragon from Obsidian and Blackstone. Use the pixel-art body shaping technique — build a cross-section grid and fill each slice. Wings from End Stone Bricks look incredible.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>20+ hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <span class="tag red">Obsidian</span>
+      <span class="tag">Blackstone</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🌊</div>
+      <div class="build-title">UNDERWATER CITY</div>
+      <span class="build-diff diff-hard">⭐⭐⭐ HARD</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Drain an ocean bay and build a domed city with Prismarine and Sea Lanterns. Connect domes with glass corridors. Add farms, housing districts and a throne at the center. Use conduit to breathe.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>15-20hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <span class="tag diamond">Prismarine</span>
+      <span class="tag">Sea Lantern</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🌋</div>
+      <div class="build-title">VOLCANO FORTRESS</div>
+      <span class="build-diff diff-med">⭐⭐ MEDIUM</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Shape a mountain into a volcano using Netherrack, Magma Blocks and Lava. Build a fortress base around the caldera. Use Basalt for layers and Orange/Red Terracotta for the lava flows look.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>6-10hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+      </div>
+      <span class="tag red">Netherrack</span>
+      <span class="tag">Magma</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🏛️</div>
+      <div class="build-title">GREEK TEMPLE</div>
+      <span class="build-diff diff-easy">⭐ EASY</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Use Quartz Pillars, Quartz Blocks and Smooth Quartz slabs for a pristine white look. Build tall columns in rows, a stepped platform, and a triangular pediment roof. Very achievable!</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>2-4hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
+      </div>
+      <span class="tag">Quartz</span>
+      <span class="tag diamond">Pillars</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🗼</div>
+      <div class="build-title">MODERN SKYSCRAPER</div>
+      <span class="build-diff diff-med">⭐⭐ MEDIUM</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Build a glass-and-concrete tower using Glass, Cyan Concrete and White Concrete. Create floor plates, balconies and a rooftop helipad. Interior floors with carpet and furniture make it feel real.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>5-8hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
+      </div>
+      <span class="tag diamond">Glass</span>
+      <span class="tag">Concrete</span>
+    </div>
+
+    <div class="build-card">
+      <div class="build-icon">🌸</div>
+      <div class="build-title">JAPANESE PAGODA</div>
+      <span class="build-diff diff-med">⭐⭐ MEDIUM</span>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">5-tiered pagoda using Dark Oak, Crimson Wood and Spruce. Each tier gets smaller with an overhanging roof using stair blocks. Add a koi pond, cherry blossom trees and stone lanterns around it.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Time Estimate</span><span>4-7hrs</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
+      </div>
+      <span class="tag">Dark Oak</span>
+      <span class="tag red">Crimson</span>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- ─── FARMS ─────────────────────────── -->
+<div id="farms" class="section-wrapper">
+<section>
+  <div class="section-label">▶ SECTION 03</div>
+  <h2 class="section-title">BEST FARMS TO BUILD</h2>
+  <hr class="section-divider">
+
+  <div class="grid-3">
+
+    <div class="farm-card">
+      <div class="card-icon">🌾</div>
+      <div class="farm-title">AFK IRON GOLEM FARM</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Build in a village with 20+ beds and 20+ villagers. Golems spawn automatically, fall into a lava blade and drop Iron Ingots. Produces 300–800 ingots/hour while AFK.</p>
+      <span class="tag red">Redstone</span><span class="tag diamond">800/hr</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'AFK IRON GOLEM FARM')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">⭐</div>
+      <div class="farm-title">XP BLAZE FARM</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Build a platform around a Nether Fortress blaze spawner. Funnel blazes into a kill chamber you can one-shot. Fastest XP in the game — max-enchant a tool in 5 minutes.</p>
+      <span class="tag gold">Fast XP</span><span class="tag">Nether</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'XP BLAZE FARM')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">🐠</div>
+      <div class="farm-title">GUARDIAN FARM</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Drain an ocean monument and convert it into a guardian farm. Produces Prismarine, Sea Lanterns and massive XP. Takes time to build but produces ~180k items per hour.</p>
+      <span class="tag diamond">Prismarine</span><span class="tag red">Complex</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'GUARDIAN FARM')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">🥩</div>
+      <div class="farm-title">COW/CHICKEN COOKER</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Breed cows or chickens above a hopper-connected lava blade. Babies grow up, get cooked instantly and drop cooked meat into chests. Infinite food supply forever.</p>
+      <span class="tag">Cooked Meat</span><span class="tag gold">Passive</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'COW/CHICKEN COOKER')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">🕸️</div>
+      <div class="farm-title">SPIDER / STRING FARM</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Build on top of a spider spawner in a cave. A water funnel pushes spiders to a kill zone. You get endless String (for bows, wool) and Spider Eyes (for potions).</p>
+      <span class="tag">String</span><span class="tag">Spider Eye</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'SPIDER / STRING FARM')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">💎</div>
+      <div class="farm-title">VILLAGER TRADING HALL</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Cure zombie villagers to get maximum discount. Set up rows of Librarians, Farmers, Weaponsmiths and Fletchers. Trade paper/carrots for emeralds; emeralds for enchanted gear. Unlimited diamonds.</p>
+      <span class="tag gold">Emeralds</span><span class="tag diamond">Best Farm</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'VILLAGER TRADING HALL')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">🎆</div>
+      <div class="farm-title">ENDERMAN FARM</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Build a large platform in the End at Y=128. Endermen fall from the height and you one-shot them. Insane Ender Pearl drops and XP — best late-game XP farm in the game.</p>
+      <span class="tag red">End Only</span><span class="tag diamond">Top XP</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'ENDERMAN FARM')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">🌵</div>
+      <div class="farm-title">CACTUS + BAMBOO FARM</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">A zero-tick cactus farm using pistons auto-harvests cactus into hoppers. Bamboo auto-breaks itself. Combine both for infinite fuel — cactus for green dye, bamboo for scaffolding and sticks.</p>
+      <span class="tag">Fuel</span><span class="tag gold">Zero-Tick</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'CACTUS + BAMBOO FARM')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+    <div class="farm-card">
+      <div class="card-icon">🍄</div>
+      <div class="farm-title">MUSHROOM / BONE MEAL FARM</div>
+      <p style="color:#b0c8b0;font-size:0.9rem;line-height:1.7">Use a Composter with a skeleton farm to generate infinite Bone Meal. Feed it into a flower/crop farm for auto-growing food. Essential for early game food security on any difficulty.</p>
+      <span class="tag">Bone Meal</span><span class="tag">Crops</span>
+      <br>
+      <button class="watch-btn" onclick="openYT('', 'MUSHROOM / BONE MEAL FARM')">
+        <span class="play-icon">▶</span> WATCH TUTORIAL
+      </button>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- ─── CRAFTING ────────────────────────── -->
+<div id="crafting" class="section-wrapper" style="padding:0">
+<style>
+/* ── Crafting Recipe Database Styles ── */
+:root { 
+            --bg: #0f172a; 
+            --card: rgba(30, 41, 59, 0.7); 
+            --accent: #10b981; 
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        body { 
+            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+            color: var(--text-main); 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            padding: 0; 
+            margin: 0; 
+            min-height: 100vh;
+        }
+
+        .header { 
+            position: sticky; 
+            top: 0; 
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 30px 20px; 
+            z-index: 100; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        h1 { 
+            margin: 0 0 15px 0; 
+            color: var(--accent); 
+            font-size: 2.2rem; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .search-box { 
+            width: 90%; 
+            max-width: 500px; 
+            padding: 14px 25px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            background: rgba(0,0,0,0.3); 
+            color: #fff; 
+            outline: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent);
+            background: rgba(0,0,0,0.5);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Loading Animation Styles */
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(16, 185, 129, 0.2);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden { display: none; }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .gallery { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .recipe-card { 
+            background: var(--card); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.05); 
+            border-radius: 28px; 
+            padding: 40px 30px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeIn 0.5s ease backwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .recipe-card:hover { 
+            transform: translateY(-12px);
+            background: rgba(30, 41, 59, 0.95);
+            border-color: var(--accent);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        h2 { 
+            margin: 25px 0 12px 0; 
+            font-size: 1.5rem; 
+            color: #fff; 
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .recipe-img { 
+            width: 180px; 
+            height: 180px; 
+            object-fit: contain;
+            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.7));
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+
+        .recipe-card:hover .recipe-img {
+            transform: scale(1.1) rotate(3deg);
+            filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
+        }
+
+        .description { 
+            color: var(--text-dim); 
+            font-size: 1rem; 
+            line-height: 1.6; 
+            text-align: center; 
+            margin: 0;
+            max-width: 90%;
+        }
+
+        .hint { 
+            color: var(--text-dim); 
+            font-size: 0.95rem; 
+            margin-top: 10px; 
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+</style>
+<div class="header">
+        <h1>MC Crafting Guide</h1>
+        <input type="text" id="search" class="search-box" placeholder="Search items...">
+        <div id="status-container" class="hint">
+            <div id="loader" class="loader"></div>
+            <span id="status">Loading Database...</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div id="gallery" class="gallery"></div>
+    </div>
+
+<script>
+    const RECIPES = [
+        { name: "Diamond Pickaxe", desc: "The ultimate mining tool. Required for harvesting Obsidian and Ancient Debris.", link: "https://imgs.search.brave.com/-OcO30S5LQTakaRlZ1gTeL6taWAxErInGo1JGGeiQFA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWNnLnNwb3J0c2tl/ZWRhLmNvbS9lZGl0/b3IvMjAyMi8wNy9j/NmY0OS0xNjU3ODEx/MTEzMTE3My0xOTIw/LmpwZw" },
+        { name: "Diamond Sword", desc: "A powerful melee weapon. Essential for defending against tough mobs.", link: "https://imgs.search.brave.com/T9635aaFU1DKw5ztZiAoDOwSpZAnvV1D_olQhKzPKag/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9taW5l/Y3JhZnQtbWF4Lm5l/dC91cGxvYWQvaWJs/b2NrLzRmNy80Zjdk/NWNlZmZmNzQwZWNl/NmVkZDA2ZTQzNmE0/ODEzNC5wbmc" },
+        { name: "Diamond Shovel", desc: "Fastest way to clear dirt and sand. Durable enough for massive landscaping.", link: "https://imgs.search.brave.com/FRJvYlcj_B5dskBahxVO-iwdZ4QcPMypR9MarTGe3lk/rs:fit:0:180:1:0/g:ce/aHR0cHM6Ly9taW5l/Y3JhZnQtbWF4Lm5l/dC91cGxvYWQvaWJs/b2NrL2JlZi9iZWZi/Y2QzNTVlMmRhMDdi/YTI5Y2Q4OTA0ZWY0/MjJhZS5wbmc" },
+        { name: "Activator Rail", desc: "Used to 'activate' certain minecarts, such as priming TNT or ejecting mobs.", link: "https://minecraft-max.net/upload/webp/upload/iblock/311/3117d40f3d2dbebe881d1c1f4e521cc7.webp" },
+        { name: "Amethyst Block", desc: "A decorative shimmering block crafted from shard. Makes a unique sound.", link: "https://minecraft-max.net/upload/webp/upload/iblock/32e/32e649ba50a3c858670f5aafa5f1f0da.webp" },
+        { name: "Anvil", desc: "Used to repair items, rename equipment, and apply enchanted books.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f54/f5443e27a870c81c1e5ea829f5916863.webp" },
+        { name: "Armor Stand", desc: "A decorative entity used to display your armor sets.", link: "https://minecraft-max.net/upload/webp/upload/iblock/890/bqq6pwmyuejjwlhx8jcs67t5zjnw3pes.webp" },
+        { name: "Arrow", desc: "Standard ammunition for bows. Can be tipped with potions.", link: "https://minecraft-max.net/upload/webp/upload/iblock/691/6919776c038cf3e253d4459160d8ff7c.webp" },
+        { name: "Banner", desc: "A customizable decorative block for designs or marking waypoints.", link: "https://minecraft-max.net/upload/webp/upload/iblock/831/831021c67ae567a96149ab45a3d33d05.webp" },
+        { name: "Barrel", desc: "A storage block like a chest that works even with a block above it.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b3e/tafn4bkc8tqrwe3rgy0o9gpno8itikue.webp" },
+        { name: "Beacon", desc: "A powerful block that provides status effects to nearby players.", link: "https://minecraft-max.net/upload/webp/upload/iblock/13f/qiznoklh5g168q7vehar7tbvy7zw8daw.webp" },
+        { name: "Bed", desc: "Used to set spawn points and skip the night. Explodes in the Nether.", link: "https://minecraft-max.net/upload/webp/upload/iblock/214/r1qrl6jqj73ikbh89tl86o7p3p5fpd8h.webp" },
+        { name: "Beehive", desc: "A craftable home for bees. Used to harvest honey and honeycomb.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d0f/d0faa0d2ed7865019cad8470cd685166.webp" },
+        { name: "Beetroot Soup", desc: "A liquid food item that restores hunger. Requires a bowl.", link: "https://minecraft-max.net/upload/webp/upload/iblock/1ad/tth5473dj5ck0o1ovwiash9dspsh108r.webp" },
+        { name: "Blast Furnace", desc: "Smelts ores and metal items twice as fast as a regular furnace.", link: "https://minecraft-max.net/upload/webp/upload/iblock/caf/caf0ef15c50eb9ac910559dbd8ce6e77.webp" },
+        { name: "Boat", desc: "Essential for ocean travel. Allows two entities to travel across water.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b89/b89b35aaf5c01985bf6e261d6ccb73c4.webp" },
+        { name: "Bone Block", desc: "Decorative and functional block crafted from nine bone meal.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b1c/b1c9bbc2cbba7e8874fa1acb1dc0b258.webp" },
+        { name: "Bone Meal", desc: "Fertilizer to instantly grow crops, trees, and flowers.", link: "https://minecraft-max.net/upload/webp/upload/iblock/786/786e46ae5846f4bd3f2bbd8fbbd9451b.webp" },
+        { name: "Book", desc: "Ingredient for enchanting tables, bookshelves, and writable books.", link: "https://minecraft-max.net/upload/webp/upload/iblock/17a/17a045bcb542e985aacaf4b940cbca88.webp" },
+        { name: "Book and Quill", desc: "Allows players to write and sign their own books for lore or notes.", link: "https://minecraft-max.net/upload/webp/upload/iblock/9cf/9cf06bb08b5b595e982d236091f44521.webp" },
+        { name: "Bookshelf", desc: "Increases the level of nearby enchanting tables up to level 30.", link: "https://minecraft-max.net/upload/webp/upload/iblock/c82/c821c9508593acbb155e2c7b303d97c1.webp" },
+        { name: "Bread", desc: "A reliable early-game food source made from wheat.", link: "https://minecraft-max.net/upload/webp/upload/iblock/027/027a01dd6c949ba12cfd91d5b4b20cc2.webp" },
+        { name: "Brewing Stand", desc: "Workstation used to create potions. Requires Blaze Powder.", link: "https://minecraft-max.net/upload/webp/upload/iblock/454/2e392q31grt3r04126rcwb9hvdjf13jq.webp" },
+        { name: "Bucket", desc: "Used to carry water, lava, milk, or powder snow.", link: "https://minecraft-max.net/upload/webp/upload/iblock/2c1/ktxsc9lsbf73p7nujhrna28bb35bed1z.webp" },
+        { name: "Bundle", desc: "Helps manage inventory by holding a mix of different item types.", link: "https://imgs.search.brave.com/WM4RlRMVxlWJnVu1iAS3pUiJKLDLkhF8iObr234bHpU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/a2luZXRpY2hvc3Rp/bmcubmV0L25ld3Mv/bWluZWNyYWZ0LWJ1/bmRsZS1yZWNpcGUu/cG5n" },
+        { name: "Cake", desc: "A unique food source that is placed and eaten in seven slices.", link: "https://minecraft-max.net/upload/webp/upload/iblock/41b/mnk54d9473waiylrmtkzgvkcwtlumxms.webp" },
+        { name: "Campfire", desc: "Provides light and cooks food without fuel. Sends up smoke.", link: "https://minecraft-max.net/upload/webp/upload/iblock/dcf/kioisnfhwc2r3emm3p5iswwv0rllm5ls.webp" },
+        { name: "Candle", desc: "Decorative light source. Can be dyed and placed on cakes.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8b5/8b5b2b263b953d8f61cff4500a795229.webp" },
+        { name: "Carpet", desc: "Thin decorative blocks available in all 16 colors.", link: "https://minecraft-max.net/upload/webp/upload/iblock/e8c/e8c043f9b9dcc4920d113410d29edcde.webp" },
+        { name: "Cartography Table", desc: "Used for cloning, zooming, and locking maps.", link: "https://minecraft-max.net/upload/webp/upload/iblock/5cb/t1pet64he0zvs0u2q9t84hvsrnvktrsn.webp" },
+        { name: "Cauldron", desc: "Holds liquids or powder snow. Used to dye leather or wash banners.", link: "https://minecraft-max.net/upload/webp/upload/iblock/31e/w62nsiedon5fk6amn0kvxkntfkampygr.webp" },
+        { name: "Chest", desc: "Standard storage unit. Two together form a Large Chest.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8d0/8d08af60f53c2c031a9f2d8784d30d9d.webp" },
+        { name: "Clock", desc: "Shows the current position of the sun and moon.", link: "https://minecraft-max.net/upload/webp/upload/iblock/390/390c4e1f4f62c7b3c2417e4e36aaf49b.webp" },
+        { name: "Compass", desc: "Points toward world spawn or a Lodestone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/346/346d49ba9c42e6c8dd06cca69010961e.webp" },
+        { name: "Composter", desc: "Turns organic materials into bone meal. A Farmer's job block.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f2a/8vgss2s21nnwymq30jrab0eci9pbzbyr.webp" },
+        { name: "Concrete Powder", desc: "Gravity-affected block that solidifies when touching water.", link: "https://minecraft-max.net/upload/webp/upload/iblock/46d/p5kv6wpkbq8n7uuc2nwx9fdr8g8l3y7p.webp" },
+        { name: "Conduit", desc: "Provides underwater breathing and vision to nearby players.", link: "https://minecraft-max.net/upload/webp/upload/iblock/2d1/dtua9nlxk8cxbp9awitzlh7oqo95uavt.webp" },
+        { name: "Cookie", desc: "Low-saturation food item made from cocoa beans and wheat.", link: "https://minecraft-max.net/upload/webp/upload/iblock/65a/65a99f911af522c36f1fcd8ca39b4a23.webp" },
+        { name: "Copper Block", desc: "Building block that oxidizes from orange to green over time.", link: "https://minecraft-max.net/upload/webp/upload/iblock/adc/adc397c5a67c12380e9f762512da1529.webp" },
+        { name: "Crafter", desc: "Automated crafting block powered by redstone signals.", link: "https://imgs.search.brave.com/x_8740TDD3GyjVFktNBWdgMr5U7d3TX7M8dIA8KaBJ4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/ZGV4ZXJ0by5jb20v/Y2RuLWltYWdlL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDI0LzAy/LzE1L0NyYWZ0ZXIt/TWluZWNyYWZ0LXJl/Y2lwZS0xMDI0eDU3/Ni5qcGc_d2lkdGg9/MTIwMCZxdWFsaXR5/PTc1JmZvcm1hdD1h/dXRv" },
+        { name: "Crafting Table", desc: "The essential 3x3 grid for complex crafting recipes.", link: "https://minecraft-max.net/upload/webp/upload/iblock/372/37292e6aa1df5aaec987d30b2b0437f2.webp" },
+        { name: "Crossbow", desc: "Powerful ranged weapon that can fire rockets or arrows.", link: "https://minecraft-max.net/upload/webp/upload/iblock/c0d/9q3r832zfpi4tf5v85dtb58cslhu8zke.webp" },
+        { name: "Daylight Detector", desc: "Outputs a redstone signal based on the time of day.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b90/qt9onk8hqyongx2w2idjip6oe2y90mgy.webp" },
+        { name: "Detector Rail", desc: "Sends a redstone signal when a minecart passes over it.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f53/f5342707e7523e5ef890eef452c8296c.webp" },
+        { name: "Diamond Block", desc: "Solid block of diamond. Used for storage or beacon bases.", link: "https://minecraft-max.net/upload/webp/upload/iblock/203/203126350ed61c866bcd51b5f294cfee.webp" },
+        { name: "Dispenser", desc: "Uses redstone to 'use' or 'shoot' items from its inventory.", link: "https://minecraft-max.net/upload/webp/upload/iblock/e2e/e2eef7c3c4734da84a44a32e8ff52974.webp" },
+        { name: "Dropper", desc: "Drops items as entities instead of using them like a dispenser.", link: "https://minecraft-max.net/upload/webp/upload/iblock/805/805fc6a169cf9cc6659bfc7573851c73.webp" },
+        { name: "Emerald Block", desc: "Used for storage or high-value trading with villagers.", link: "https://minecraft-max.net/upload/webp/upload/iblock/034/0343666b25d236743b594322f8bf1cb6.webp" },
+        { name: "Enchanting Table", desc: "Imbue tools and armor with magical properties using XP.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f1f/f1f5877b74b0efe4e9adc87b6d7866a1.webp" },
+        { name: "Fence", desc: "A barrier that is 1.5 blocks high to keep mobs in or out.", link: "https://minecraft-max.net/upload/webp/upload/iblock/474/4746c911fd36c6420e464a01ef3aad58.webp" },
+        { name: "Firework Rocket", desc: "Used for flight boost with Elytra or for celebrations.", link: "https://minecraft-max.net/upload/webp/upload/iblock/c1e/c1e1b6df70e9e20f85d65fd439811906.webp" },
+        { name: "Flint and Steel", desc: "Used to light fires, TNT, and Nether Portals.", link: "https://minecraft-max.net/upload/webp/upload/iblock/83e/83ecba80f714604c731a327893d339fd.webp" },
+        { name: "Furnace", desc: "Essential for smelting ores and cooking food using fuel.", link: "https://minecraft-max.net/upload/webp/upload/iblock/0ee/0ee4f97f96f70a5ab3f6dc580330dc29.webp" },
+        { name: "Glass Bottle", desc: "Used for brewing, or collecting honey and Dragon's Breath.", link: "https://minecraft-max.net/upload/webp/upload/iblock/31f/d7nbyesfd1z16ac6im11527mu3dhmght.webp" },
+        { name: "Glowstone", desc: "A light-emitting block found in the Nether.", link: "https://minecraft-max.net/upload/webp/upload/iblock/3fa/3fa84843a2b704565c1a007445a98d61.webp" },
+        { name: "Golden Apple", desc: "Provides extra health hearts and quick regeneration.", link: "https://minecraft-max.net/upload/webp/upload/iblock/1db/1db7c8bd8c072c2d27a52df3bd5b1919.webp" },
+        { name: "Grindstone", desc: "Used to repair items and remove enchantments for XP.", link: "https://minecraft-max.net/upload/webp/upload/iblock/0a3/xz5dqd70h2lguqlft3indl1th247pv7a.webp" },
+        { name: "Hanging Signs", desc: "Decorative signs that hang from the side or bottom of blocks.", link: "https://imgs.search.brave.com/cVVHYoNp8SqICv9iVBnHANFo_EL89YOXr1zmZU4njLk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWNuLmJlZWJ9bS5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjIvMTAvQ3JhZnRp/bmctUmVjaXBlLW9m/LUhhbmdpbmctU2ln/bi1pbi1NaW5lY3Jh/ZnQuanBnP3c9Njkw" },
+        { name: "Hay Bale", desc: "Compact wheat storage that reduces fall damage significantly.", link: "https://minecraft-max.net/upload/webp/upload/iblock/5ab/5ab61207d1016c433bb2702b72b17986.webp" },
+        { name: "Heavy Weighted Pressure Plate", desc: "Iron trigger whose signal increases with entity count.", link: "https://minecraft-max.net/upload/webp/upload/iblock/82e/82e4f2082e359c5bfba7685a22469d1c.webp" },
+        { name: "Honey Block", desc: "Sticky block that slows movement and reduces fall damage.", link: "https://minecraft-max.net/upload/webp/upload/iblock/4bd/4bd0710ad73ff378fe42be129fcdc13e.webp" },
+        { name: "Honey Bottle", desc: "Restores hunger and removes the Poison effect.", link: "https://minecraft-max.net/upload/webp/upload/iblock/fce/fce147dfa01bba73af5455e104d7cbd6.webp" },
+        { name: "Hopper", desc: "Essential for automation; moves items between containers.", link: "https://minecraft-max.net/upload/webp/upload/iblock/266/26635474797facd142a3161812fa2e7a.webp" },
+        { name: "Iron Block", desc: "Used for storage, iron golems, or beacon bases.", link: "https://minecraft-max.net/upload/webp/upload/iblock/05b/05b2406a815679c02f50cc979cc873a3.webp" },
+        { name: "Iron Axe", desc: "Chops wood fast and serves as a high-damage weapon.", link: "https://minecraft-max.net/upload/webp/upload/iblock/163/1634f882086e22a9ff2b624a2bc7efaa.webp" },
+        { name: "Iron Boots", desc: "Mid-tier foot protection for your armor set.", link: "https://minecraft-max.net/upload/webp/upload/iblock/dcf/dcf90d7965887ac844d3e20bc300ee61.webp" },
+        { name: "Iron Chestplate", desc: "Provides high armor points for your torso.", link: "https://minecraft-max.net/upload/webp/upload/iblock/a45/a4522b55f7cc3053eca1b3eebd17cb13.webp" },
+        { name: "Iron Door", desc: "Sturdy door that requires a redstone signal to open.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b42/94o59y8vcyeq297yh0qke55mkvmsxtzr.webp" },
+        { name: "Iron Helmet", desc: "Standard iron tier protection for the player's head.", link: "https://minecraft-max.net/upload/webp/upload/iblock/02a/02aba88ac36abba5dc3814127ff5bb4c.webp" },
+        { name: "Iron Hoe", desc: "Used to till dirt and grass blocks into farmland.", link: "https://minecraft-max.net/upload/webp/upload/iblock/e19/e19b353d0615d811af6a9d14ec745804.webp" },
+        { name: "Iron Leggings", desc: "Reliable leg defense for mid-game survival.", link: "https://minecraft-max.net/upload/webp/upload/iblock/e18/e1878ef89bee0269789b10dcf8dd1137.webp" },
+        { name: "Iron Pickaxe", desc: "Allows you to mine Gold, Redstone, and Diamond ores.", link: "https://minecraft-max.net/upload/webp/upload/iblock/5fa/5fad008a1940ea93b3723e1ba6404f02.webp" },
+        { name: "Iron Shovel", desc: "Efficiently digs up dirt, sand, and gravel.", link: "https://minecraft-max.net/upload/webp/upload/iblock/47e/47e14c0f17ba36c3b2e5c1a6a1e94a5c.webp" },
+        { name: "Iron Sword", desc: "Reliable weapon with good durability for combat.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8df/8dfabb3ddc25bf90b0a473a7f6a86987.webp" },
+        { name: "Iron Trapdoor", desc: "Flat iron door; requires redstone to toggle open.", link: "https://minecraft-max.net/upload/webp/upload/iblock/352/by67h4b7z7aoe3v38so96v2cjk6rbw29.webp" },
+        { name: "Item Frame", desc: "A decorative entity used to display items on walls.", link: "https://minecraft-max.net/upload/webp/upload/iblock/1b7/1b738540f58ce28d61fe20ca23928b29.webp" },
+        { name: "Jack o'Lantern", desc: "A carved pumpkin light source that works underwater.", link: "https://minecraft-max.net/upload/webp/upload/iblock/88d/4u6ipafw5gknnaawe6h7finlx2qs8l3d.webp" },
+        { name: "Jukebox", desc: "Plays music discs found in dungeons or dropped by creepers.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d77/d77dc2c27451a17beb018670b4e75297.webp" },
+        { name: "Ladder", desc: "Cheap and effective vertical transport for climbing.", link: "https://minecraft-max.net/upload/webp/upload/iblock/6d1/6d1851fa9d39963e44f68be38975d4da.webp" },
+        { name: "Lantern", desc: "Stylish light source that can hang from chains.", link: "https://minecraft-max.net/upload/webp/upload/iblock/9bf/jyqmvv4sb5o0i04djrbstuy0d54osr0h.webp" },
+        { name: "Lead", desc: "Used to lead mobs or tether them to fence posts.", link: "https://minecraft-max.net/upload/webp/upload/iblock/cf9/lpv63eedwac08mfy1u284irqzxt8u16a.webp" },
+        { name: "Leather Cap", desc: "Dyable head protection; the basic armor tier.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d68/d68dd44f89dc8d4159432c6f29d30541.webp" },
+        { name: "Leather Tunic", desc: "Dyable chestpiece made from leather hides.", link: "https://minecraft-max.net/upload/webp/upload/iblock/a14/a145dce215bdfd5664c632737712f4b6.webp" },
+        { name: "Leather Pants", desc: "Dyable leg protection; useful for cold biomes.", link: "https://minecraft-max.net/upload/webp/upload/iblock/288/288bdb37f666ecc879ea103d666acb06.webp" },
+        { name: "Leather Boots", desc: "Prevents the player from sinking into Powder Snow.", link: "https://minecraft-max.net/upload/webp/upload/iblock/ca4/ca4082bb901ea7eb849ba33017808ed8.webp" },
+        { name: "Lectern", desc: "Holds books for reading and serves as a Librarian job block.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d1a/hn78srn5j6d6fqpoy9bxggxpet5537c4.webp" },
+        { name: "Lever", desc: "A toggleable switch for constant redstone signals.", link: "https://minecraft-max.net/upload/webp/upload/iblock/1c0/1c03b531424122439461eb11af95111f.webp" },
+        { name: "Light Weighted Pressure Plate", desc: "Gold plate that detects precise entity counts.", link: "https://minecraft-max.net/upload/webp/upload/iblock/1b5/1b555773509c4f1191b3d583a281467f.webp" },
+        { name: "Lightning Rod", desc: "Diverts lightning to protect buildings from fire.", link: "https://minecraft-max.net/upload/webp/upload/iblock/c07/ysxzz8b6iq1xyrrang1q3xfoa53x203e.webp" },
+        { name: "Loom", desc: "Used to apply patterns to banners using dyes.", link: "https://minecraft-max.net/upload/webp/upload/iblock/0c1/yvfwp62q3thkpl7k60kvvhb3zmt1koqs.webp" },
+        { name: "Map", desc: "Used to track and display explored terrain in an area.", link: "https://minecraft-max.net/upload/webp/upload/iblock/882/882a4d3393b482703b41d063717208d1.webp" },
+        { name: "Melon Slice", desc: "Low-saturation food obtained by breaking melon blocks.", link: "https://minecraft-max.net/upload/webp/upload/iblock/58c/58c42bb797c2111162464731a5472877.webp" },
+        { name: "Minecart", desc: "Basic vehicle used to travel along rail systems.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f6a/f6a44547496ef9c2f6057a7cc21021bc.webp" },
+        { name: "Mossy Cobblestone", desc: "A decorative variant of cobblestone with growing moss.", link: "https://minecraft-max.net/upload/webp/upload/iblock/c8b/c8bc6754020a17f6984e03770335025a.webp" },
+        { name: "Mushroom Stew", desc: "Classic food source crafted from red and brown mushrooms.", link: "https://minecraft-max.net/upload/webp/upload/iblock/be0/be05436338e967a5b3a4a161b3696803.webp" },
+        { name: "Nether Brick", desc: "Dark, durable building material found in Nether Fortresses.", link: "https://minecraft-max.net/upload/webp/upload/iblock/23b/23b3842c1628d08560f23554625b16e8.webp" },
+        { name: "Nether Star", desc: "Rare drop from the Wither; the core ingredient for a Beacon.", link: "https://minecraft-max.net/upload/webp/upload/iblock/983/983ec839b83f3e7929f032231267498c.webp" },
+        { name: "Netherite Ingot", desc: "The strongest material, used to upgrade Diamond equipment.", link: "https://minecraft-max.net/upload/webp/upload/iblock/618/6184852f53940177579f321453444458.webp" },
+        { name: "Note Block", desc: "Plays a musical note when hit or powered by redstone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/171/1719702a0a3843330691503923c8e4cc.webp" },
+        { name: "Observer", desc: "Detects block updates and sends a short redstone pulse.", link: "https://minecraft-max.net/upload/webp/upload/iblock/582/582e44535456e300624024479e0a8111.webp" },
+        { name: "Obsidian", desc: "Blast-resistant block required for building Nether Portals.", link: "https://minecraft-max.net/upload/webp/upload/iblock/7f9/7f9435b7194f45448377747e937d7a4b.webp" },
+        { name: "Painting", desc: "A decorative canvas used to display various pieces of art on your walls.", link: "https://minecraft-max.net/upload/webp/upload/iblock/32f/32fca8d0a5c4ba7747d30ce48d3d94eb.webp" },
+        { name: "Paper", desc: "Crafted from sugar cane; used for books, maps, and firework rockets.", link: "https://minecraft-max.net/upload/webp/upload/iblock/2a0/2a0b6d9f2e53ba06ef91680c5c669379.webp" },
+        { name: "Golden Pickaxe", desc: "Mines very fast but has extremely low durability.", link: "https://minecraft-max.net/upload/webp/upload/iblock/989/98921b2e0c39166a5e2bce596f46a845.webp" },
+        { name: "Stone Pickaxe", desc: "Standard early-game mining tool made from cobblestone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/883/883467e75311586200d11c10f8c17006.webp" },
+        { name: "Wooden Pickaxe", desc: "The very first mining tool a player crafts to begin their journey.", link: "https://minecraft-max.net/upload/webp/upload/iblock/9e5/9e5d472cffa1bcebde246ed4f27ac1ce.webp" },
+        { name: "Piston", desc: "A redstone device that pushes blocks and entities when powered.", link: "https://minecraft-max.net/upload/webp/upload/iblock/ce5/ce57997891b193fd28b2fa3f862bc92b.webp" },
+        { name: "Polished Andesite", desc: "A smooth, decorative grey stone block used for clean builds.", link: "https://minecraft-max.net/upload/webp/upload/iblock/abc/abc269ac65b4423fe053f2e0c490f9b2.webp" },
+        { name: "Polished Andesite Slab", desc: "Half-block version of polished andesite for detailing floors and roofs.", link: "https://minecraft-max.net/upload/webp/upload/iblock/4cb/4cb50de89caa420cebcb886f02098dee.webp" },
+        { name: "Polished Andesite Stairs", desc: "Used for smooth inclines and roof designs using polished andesite.", link: "https://minecraft-max.net/upload/webp/upload/iblock/a07/a07a50c5bac4758e8b9dca0f8f65de96.webp" },
+        { name: "Polished Basalt", desc: "A sleek, dark volcanic rock variant perfect for pillars.", link: "https://minecraft-max.net/upload/webp/upload/iblock/194/1946db03b8fb127e75d2d5df60dfe91e.webp" },
+        { name: "Polished Blackstone", desc: "A dark, elegant stone variant found primarily in the Nether.", link: "https://minecraft-max.net/upload/webp/upload/iblock/717/71735bcc702393cd9915171ded855a28.webp" },
+        { name: "Polished Blackstone Bricks", desc: "Detailed brick variant of blackstone for fortress-like builds.", link: "https://minecraft-max.net/upload/webp/upload/iblock/edd/edd4e9b44255effb88f672137de7d007.webp" },
+        { name: "Polished Blackstone Brick Slab", desc: "Brick-textured slab for dark decorative paths and structures.", link: "https://minecraft-max.net/upload/webp/upload/iblock/907/90712d87f73bed4853e090c88f2e7bef.webp" },
+        { name: "Polished Blackstone Brick Stairs", desc: "Brick-textured stairs for dark, sophisticated staircases.", link: "https://minecraft-max.net/upload/webp/upload/iblock/573/5736ae899da12f848af5e19cb5f77cee.webp" },
+        { name: "Polished Blackstone Brick Wall", desc: "A decorative wall block made of polished blackstone bricks.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8a5/8a57eae036fa36306abdb64fcac521ac.webp" },
+        { name: "Polished Blackstone Button", desc: "A sleek blackstone trigger that blends into dark walls.", link: "https://minecraft-max.net/upload/webp/upload/iblock/132/132ddf29338aefde8d8b0857aeb90b5e.webp" },
+        { name: "Polished Blackstone Pressure Plate", desc: "Floor trigger that matches blackstone blocks perfectly.", link: "https://minecraft-max.net/upload/webp/upload/iblock/899/899af450c33f009ad406a535d624e447.webp" },
+        { name: "Polished Blackstone Slab", desc: "Standard smooth blackstone slab for modern detailing.", link: "https://minecraft-max.net/upload/webp/upload/iblock/907/90712d87f73bed4853e090c88f2e7bef.webp" },
+        { name: "Polished Blackstone Stairs", desc: "Smooth blackstone stairs for dark, clean transitions.", link: "https://minecraft-max.net/upload/webp/upload/iblock/573/5736ae899da12f848af5e19cb5f77cee.webp" },
+        { name: "Polished Blackstone Wall", desc: "A sturdy decorative wall made of smooth polished blackstone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8a5/8a57eae036fa36306abdb64fcac521ac.webp" },
+        { name: "Polished Deepslate", desc: "A dark, durable stone block from the deepest parts of the overworld.", link: "https://minecraft-max.net/upload/webp/upload/iblock/821/82138eeb24d1ee574bfdf63df4a04788.webp" },
+        { name: "Polished Deepslate Slab", desc: "Half-block variant of deepslate for industrial-style flooring.", link: "https://minecraft-max.net/upload/webp/upload/iblock/22a/22a36341105136b10333ff76de430b20.webp" },
+        { name: "Polished Deepslate Stairs", desc: "Dark, sleek stairs often used in modern underground builds.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d38/d384d99006f027de2ea69c6a477ece36.webp" },
+        { name: "Polished Deepslate Wall", desc: "A dark, rugged wall block for protecting your deep-world base.", link: "https://minecraft-max.net/upload/webp/upload/iblock/cc2/cc2dde4508da5b67228bbe0a822dc097.webp" },
+        { name: "Polished Diorite", desc: "A smooth white stone block with black speckles; great for contrast.", link: "https://minecraft-max.net/upload/webp/upload/iblock/2c3/2c3b754bdb2763c9f7b9aa91002cc16f.webp" },
+        { name: "Polished Diorite Slab", desc: "Clean white slab variant for light-themed paths and ceilings.", link: "https://minecraft-max.net/upload/webp/upload/iblock/2e0/2e0d265c62f89373987365611b68a319.webp" },
+        { name: "Polished Diorite Stairs", desc: "White speckled stairs for bright, modern architectural designs.", link: "https://minecraft-max.net/upload/webp/upload/iblock/883/883aa73046602b8f47514ddadfbd0a0d.webp" },
+        { name: "Polished Granite", desc: "A smooth, reddish-brown stone block for warm, decorative accents.", link: "https://minecraft-max.net/upload/webp/upload/iblock/903/9039c292972399750188cc379e8efd80.webp" },
+        { name: "Block of Quartz", desc: "A smooth, white decorative block made from nether quartz.", link: "https://minecraft-max.net/upload/webp/upload/iblock/956/956d1accbe46621117c2b5b1ecdcd21f.webp" },
+        { name: "Quartz Bricks", desc: "Decorative brick-patterned quartz blocks for clean architecture.", link: "https://minecraft-max.net/upload/webp/upload/iblock/0d7/0d712b6d143f0d0824a5a778f918e364.webp" },
+        { name: "Quartz Pillar", desc: "Vertical-patterned quartz block often used for classical columns.", link: "https://minecraft-max.net/upload/webp/upload/iblock/ec7/ec7babd1e42a8051f5c324a32c2e2847.webp" },
+        { name: "Quartz Slab", desc: "A smooth white half-block for elegant detailing and floors.", link: "https://minecraft-max.net/upload/webp/upload/iblock/104/104feeee5a5445989e4dfa301c9a5299.webp" },
+        { name: "Quartz Stairs", desc: "Pristine white stairs for sophisticated structural transitions.", link: "https://minecraft-max.net/upload/webp/upload/iblock/216/21604b01edff606e984a84ba998eeabe.webp" },
+        { name: "Rabbit Stew", desc: "A highly nutritious food source that requires a mushroom and bowl.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d71/g7g034t5sfsrwu7b1m9jodvrb9eyqvio.webp" },
+        { name: "Rail", desc: "Standard iron track used to transport minecarts and entities.", link: "https://minecraft-max.net/upload/webp/upload/iblock/2f2/2f24943f56fc03e1acc449b5fd08ddf7.webp" },
+        { name: "Raw Copper Block", desc: "A storage block for raw copper ore before it is smelted.", link: "https://minecraft-max.net/upload/webp/upload/iblock/fc9/fc9501f57803c4fb7aca9faa5faff3bc.webp" },
+        { name: "Raw Gold Block", desc: "A heavy storage block for unsmelted raw gold nuggets.", link: "https://minecraft-max.net/upload/webp/upload/iblock/e3b/e3b983abd7e2f4721a3fd8853eb1eca3.webp" },
+        { name: "Raw Iron Block", desc: "Used to store bulk amounts of raw iron ore efficiently.", link: "https://minecraft-max.net/upload/webp/upload/iblock/fee/feea6bd3481d326d6c28494e6227f2d3.webp" },
+        { name: "Recovery Compass", desc: "A unique tool that points to the location of your last death.", link: "https://minecraft-max.net/upload/webp/upload/iblock/66e/nyr50iocv1hokmp0bat73amlsv5popnw.webp" },
+        { name: "Red Nether Brick", desc: "A decorative Nether-based brick with a deep crimson hue.", link: "https://minecraft-max.net/upload/webp/upload/iblock/e7a/e7aaab57df78d77559fc03284c8fbd0e.webp" },
+        { name: "Red Nether Brick Slab", desc: "Crimson-colored slab for detailing Nether-themed structures.", link: "https://minecraft-max.net/upload/webp/upload/iblock/5f7/5f7672e44f67684016b27081b0fd7bb1.webp" },
+        { name: "Red Nether Brick Stairs", desc: "Dark red stairs designed to match Nether brick fortresses.", link: "https://minecraft-max.net/upload/webp/upload/iblock/399/399f60c1ee5af752c97ffd465f7addee.webp" },
+        { name: "Red Nether Brick Wall", desc: "A sturdy crimson wall block for defending Nether outposts.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f7b/f7b8f67735e99da880f7d4ee1ef94c1a.webp" },
+        { name: "Red Sandstone", desc: "A warm, orange building block variant found in arid biomes.", link: "https://minecraft-max.net/upload/webp/upload/iblock/4fb/4fb38426c851227ce4cfd354a16dfc57.webp" },
+        { name: "Red Sandstone Slab", desc: "Half-block variant of red sandstone for smooth desert paths.", link: "https://minecraft-max.net/upload/webp/upload/iblock/872/87222f5e3a1484eec0453fbfc76550de.webp" },
+        { name: "Red Sandstone Stairs", desc: "Vibrant orange stairs used in desert architectural designs.", link: "https://minecraft-max.net/upload/webp/upload/iblock/796/79691c7477e9ff8abdd8c8d28aa93644.webp" },
+        { name: "Red Sandstone Wall", desc: "A decorative orange wall block crafted from red sandstone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/598/59838ebfe4a27e87e0a439ee98267e1d.webp" },
+        { name: "Redstone Block", desc: "A constant source of redstone power in a solid block form.", link: "https://minecraft-max.net/upload/webp/upload/iblock/fda/fdab5d4ed13bdd97ab25d57c89cfc973.webp" },
+        { name: "Redstone Comparator", desc: "Used to maintain, subtract, or test redstone signal strength.", link: "https://minecraft-max.net/upload/webp/upload/iblock/6ab/6abf4a594ccf3cb1e8b0746fa7aa851f.webp" },
+        { name: "Redstone Lamp", desc: "A controllable light source that toggles on with redstone power.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b21/b21a20ae487921655e275c0308588a13.webp" },
+        { name: "Redstone Repeater", desc: "Extends or delays redstone signals over longer distances.", link: "https://minecraft-max.net/upload/webp/upload/iblock/5f1/5f18da0fd18be2c524637886202ec9b2.webp" },
+        { name: "Redstone Torch", desc: "A low-light torch that provides a steady redstone signal.", link: "https://minecraft-max.net/upload/webp/upload/iblock/a1e/a1ee32aaf9644f4b308a934622b6ddae.webp" },
+        { name: "Sandstone", desc: "Common building block made from compressed sand grains.", link: "https://minecraft-max.net/upload/webp/upload/iblock/020/020cfbe986b186588c91ee3a3066861b.webp" },
+        { name: "Sandstone Slab", desc: "Thin half-block variant of sandstone for landscaping.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b5f/b5f6e45ffe8362b9a7e1f3811771c0cc.webp" },
+        { name: "Sandstone Stairs", desc: "Basic tan-colored stairs for simple desert structures.", link: "https://minecraft-max.net/upload/webp/upload/iblock/421/4211e6ee64b20c82670c26e702eecfaa.webp" },
+        { name: "Sandstone Wall", desc: "A textured protective wall block made from sandstone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/6cd/6cdf8dd27448bba28046a27538bbbd5e.webp" },
+        { name: "Scaffolding", desc: "Temporary structure for climbing and building at height.", link: "https://minecraft-max.net/upload/webp/upload/iblock/131/13192f2353d242a07413d2d40d1fc981.webp" },
+        { name: "Sea Lantern", desc: "Underwater light source providing high brightness levels.", link: "https://minecraft-max.net/upload/webp/upload/iblock/fda/fdad61e9528c4f9826f4f9a7e131cf1c.webp" },
+        { name: "Shears", desc: "Tool used to harvest wool, leaves, and cobwebs without breaking them.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f8f/f8f52ea3b2de4dec8a0d9b8f95e856d4.webp" },
+        { name: "Shield", desc: "Defensive tool used to block melee and projectile attacks.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8fd/vfcnuj9rqujl32xpnfzzl7czbsd3ngrw.webp" },
+        { name: "Shulker Box", desc: "Portable storage container that keeps items inside when broken.", link: "https://minecraft-max.net/upload/webp/upload/iblock/1fb/1fb557f7662683517b51cedad1a8eb15.webp" },
+        { name: "Slime Block", desc: "Bouncy block that launches entities and reduces fall damage.", link: "https://minecraft-max.net/upload/webp/upload/iblock/289/2895979d227a21507f26fc9af9d0b025.webp" },
+        { name: "Smithing Table", desc: "Used to upgrade equipment and apply armor trims.", link: "https://minecraft-max.net/upload/webp/upload/iblock/957/1k4o3hw8i779izl3mdbsz5wzahgg1ezx.webp" },
+        { name: "Smoker", desc: "A food-focused oven that cooks meat twice as fast as a furnace.", link: "https://minecraft-max.net/upload/webp/upload/iblock/139/ufn0up69b25uenne0nkveso6hx9ybc6t.webp" },
+        { name: "Smooth Quartz", desc: "A cleaner, line-free variant of the block of quartz.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d93/d9357a342742aad1caafacc5f0d61acb.webp" },
+        { name: "Smooth Quartz Slab", desc: "Seamless white slab for modern and minimalist builds.", link: "https://minecraft-max.net/upload/webp/upload/iblock/79f/79fb0c555a1a566f206e587f7c723a69.webp" },
+        { name: "Smooth Quartz Stairs", desc: "Clean white stairs with no visible borders between blocks.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b1a/b1ae1c2c3906f2b956ed2d523a255fb2.webp" },
+        { name: "Smooth Red Sandstone", desc: "Polished orange sandstone for refined desert buildings.", link: "https://minecraft-max.net/upload/webp/upload/iblock/560/5606b26aa9ced61940f9bf85e0113360.webp" },
+        { name: "Smooth Sandstone", desc: "A polished, seamless variant of standard sandstone blocks.", link: "https://minecraft-max.net/upload/webp/upload/iblock/4fb/4fb7a379b9e49290fefb93736cc4b8bc.webp" },
+        { name: "Smooth Sandstone Slab", desc: "Polished tan slab for clean floor and step designs.", link: "https://minecraft-max.net/upload/webp/upload/iblock/49b/49b8411d905f63ea88031e71f18a2350.webp" },
+        { name: "Smooth Sandstone Stairs", desc: "Sleek tan stairs with a seamless appearance.", link: "https://minecraft-max.net/upload/webp/upload/iblock/384/38439a92c2b4c7cefc5e8574669427da.webp" },
+        { name: "Smooth Stone", desc: "Smelted stone used for building and crafting blast furnaces.", link: "https://minecraft-max.net/upload/webp/upload/iblock/a12/a12d28bc4caa852f4a8054fdaacd0668.webp" },
+        { name: "Smooth Stone Slab", desc: "A clean grey slab often used as a border or trim.", link: "https://minecraft-max.net/upload/webp/upload/iblock/4ff/4ffc4520373c6cfa3adbb7d436940f45.webp" },
+        { name: "Snow Block", desc: "Decorative cold block made from compressed snowballs.", link: "https://minecraft-max.net/upload/webp/upload/iblock/71e/71e9662883a1771b98d62eb5ee35d3d7.webp" },
+        { name: "Soul Campfire", desc: "A blue-flamed fire that repels Piglins and burns brighter.", link: "https://minecraft-max.net/upload/webp/upload/iblock/7a8/0m3w7hp8lfp4gvigi16ikx9kwdc7vk5z.webp" },
+        { name: "Soul Lantern", desc: "Decorative blue light source made with soul soil or sand.", link: "https://minecraft-max.net/upload/webp/upload/iblock/02d/evca6kjtvonfcq9gnw15a08cc1bedk3z.webp" },
+        { name: "Soul Torch", desc: "Faint blue light source that creates an eerie atmosphere.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b3e/b3e8b8b31983b342b4c013c3ee48b2e7.webp" },
+        { name: "Spectral Arrow", desc: "Unique arrow that outlines hit targets with a glowing effect.", link: "https://minecraft-max.net/upload/webp/upload/iblock/7c4/o316gbk8z0jrixsvavlyc1ra6v12zqzz.webp" },
+        { name: "Spyglass", desc: "Used to zoom in and observe distant blocks or entities.", link: "https://minecraft-max.net/upload/webp/upload/iblock/7da/r1siubiolp6wjde93f4263h6ul0gya1r.webp" },
+        { name: "Stained Glass", desc: "Decorative translucent block available in 16 different colors.", link: "https://minecraft-max.net/upload/webp/upload/iblock/d0a/sgf4ynzi13u0qnonb727jcpjw7xvzlu6.webp" },
+        { name: "Stained Glass Pane", desc: "Thin decorative colored glass for custom window designs.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f42/jbltkc0u3ekr8ab55q6ko2jtmjjmjhk7.webp" },
+        { name: "Stick", desc: "Fundamental crafting component for tools, torches, and weapons.", link: "https://minecraft-max.net/upload/webp/upload/iblock/0c5/0c5be022e5f95dae5e6733889f317660.webp" },
+        { name: "Sticky Piston", desc: "A piston that pulls blocks back when retracted.", link: "https://minecraft-max.net/upload/webp/upload/iblock/b93/b9344136c5ad98adc6a547c815c6f389.webp" },
+        { name: "Stone Bricks", desc: "Common building block for fortresses, walls, and bridges.", link: "https://minecraft-max.net/upload/webp/upload/iblock/007/007e191d33162ed176408319dfcdb026.webp" },
+        { name: "Stone Brick Slab", desc: "Half-block brick variant for castle flooring and paths.", link: "https://minecraft-max.net/upload/webp/upload/iblock/5be/5be2ef99ac937f32fd4ce44db389569c.webp" },
+        { name: "Stone Brick Stairs", desc: "Sturdy stone stairs designed for stronghold-style builds.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f10/f1021291efff53e8a8876149254ae7a0.webp" },
+        { name: "Stone Brick Wall", desc: "A rugged decorative wall made of grey stone bricks.", link: "https://minecraft-max.net/upload/webp/upload/iblock/1e5/1e5d184c8f2a6e3b168a246757ea0bb9.webp" },
+        { name: "Stone Slab", desc: "A smooth grey half-block used for floors and ceilings.", link: "https://minecraft-max.net/upload/webp/upload/iblock/dfc/dfc53baa36d3f8488214cd9a984c34c7.webp" },
+        { name: "Stone Stairs", desc: "Standard grey stairs made from smooth smelted stone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/755/755cac8bb3cfd32c924159966d3e8384.webp" },
+        { name: "Stonecutter", desc: "Used to craft various stone variants efficiently in single units.", link: "https://minecraft-max.net/upload/webp/upload/iblock/39f/39fb4cca66215eac7ee28c6ee5af6e16.webp" },
+        { name: "Stripped Wood", desc: "Wood logs with the bark removed; used for decorative pillars.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8ec/8ec9f67990d54c87336e62a8cc119d1a.webp" },
+        { name: "Sugar", desc: "Used in brewing potions and baking cakes or cookies.", link: "https://minecraft-max.net/upload/webp/upload/iblock/9ab/9ab5bfbef2655e70ef1119c14c931987.webp" },
+        { name: "Suspicious Stew", desc: "A mysterious food that gives a hidden status effect when eaten.", link: "https://minecraft-max.net/upload/webp/upload/iblock/cec/1g86fbvdvezbr2uw8s1ezdxpuvulnx3p.webp" },
+        { name: "Target", desc: "A block that emits a redstone pulse when hit by a projectile.", link: "https://minecraft-max.net/upload/webp/upload/iblock/86d/86d0112fc792b4d1c9c381d164b7a663.webp" },
+        { name: "TNT", desc: "An explosive block primed by fire, redstone, or impact.", link: "https://minecraft-max.net/upload/webp/upload/iblock/512/j9d1x5lm8xlemjb2iihnyu3ybei6w4ol.webp" },
+        { name: "Torch", desc: "The basic light source for exploring caves and lighting bases.", link: "https://minecraft-max.net/upload/webp/upload/iblock/74e/74ef5dcf7ca0527b597352a624b35618.webp" },
+        { name: "Trapdoor", desc: "A horizontal door used for hatches, ladders, or decoration.", link: "https://minecraft-max.net/upload/webp/upload/iblock/8cb/8cb706d03f0b91b69565b0da3431b903.webp" },
+        { name: "Trapped Chest", desc: "A chest that emits a redstone signal when opened.", link: "https://minecraft-max.net/upload/webp/upload/iblock/db5/db5e12f4923c90bafec5a17fa21ce042.webp" },
+        { name: "Tripwire Hook", desc: "Used with string to detect entity movement and power redstone.", link: "https://minecraft-max.net/upload/webp/upload/iblock/3f8/3f8a0a475988b0a7d66f983a355c28af.webp" },
+        { name: "Turtle Shell", desc: "Provides water breathing and defense when worn as a helmet.", link: "https://minecraft-max.net/upload/webp/upload/iblock/fbc/fbc10a5e9b4615c262dfdf87856cff53.webp" },
+        { name: "Warped Button", desc: "A wooden button made from warped planks that does not burn in lava.", link: "https://minecraft-max.net/upload/webp/upload/iblock/a85/a8507b2bd52d98b9f92e47f032ab57b8.webp" },
+        { name: "Warped Door", desc: "A beautiful teal door crafted from wood found in the Nether's Warped Forests.", link: "https://minecraft-max.net/upload/webp/upload/iblock/856/856ef364b6e400691a0ce66c58f921c0.webp" },
+        { name: "Warped Fence", desc: "Fireproof fencing used for decoration or containing mobs in the Nether.", link: "https://minecraft-max.net/upload/webp/upload/iblock/3dd/3dd908e99ea9c0475557c1eff9f3193b.webp" },
+        { name: "Warped Fence Gate", desc: "A matching gate for warped fences, resistant to fire and explosions.", link: "https://minecraft-max.net/upload/webp/upload/iblock/442/9qffi370q0c24iwmp99418nreumvpvpw.webp" },
+        { name: "Warped Fungus on a Stick", desc: "Used to lead and control Striders while riding them across lava lakes.", link: "https://minecraft-max.net/upload/webp/upload/iblock/6c9/o6n72b9ov1jx882wadd4jb39v4iywafa.webp" },
+        { name: "Warped Hyphae", desc: "A decorative wood block with the warped texture on all six sides.", link: "https://minecraft-max.net/upload/webp/upload/iblock/ef6/ef6a38461ea989f938712abc69bc1c39.webp" },
+        { name: "Warped Planks", desc: "Standard building blocks crafted from the stems of warped fungi.", link: "https://minecraft-max.net/upload/webp/upload/iblock/177/1774bf7fc91381b46fb952eafb7108dc.webp" },
+        { name: "Warped Pressure Plate", desc: "Detects players and mobs; it is fireproof and matches warped builds.", link: "https://minecraft-max.net/upload/webp/upload/iblock/dad/dad68c1b78ff918e87a0750a34568120.webp" },
+        { name: "Warped Sign", desc: "A teal-colored sign that can be placed to display text in any environment.", link: "https://minecraft-max.net/upload/webp/upload/iblock/695/695c7ecbc1d80d59ffaabf4c209c6b7e.webp" },
+        { name: "Warped Slab", desc: "Half-block version of warped planks for floors, ceilings, and detailing.", link: "https://minecraft-max.net/upload/webp/upload/iblock/64b/64b24955e3e6dce83d0e221758074831.webp" },
+        { name: "Warped Stairs", desc: "Crafted for smooth height transitions in Nether-themed architectures.", link: "https://minecraft-max.net/upload/webp/upload/iblock/6ea/6ea3b7565fee1f08cd8bde4c77a1c1aa.webp" },
+        { name: "Warped Trapdoor", desc: "A fireproof horizontal door used for flooring details or secret entrances.", link: "https://minecraft-max.net/upload/webp/upload/iblock/442/442386a613313c62be5a6adac52caee0.webp" },
+        { name: "Waxed Copper Block", desc: "A copper block combined with honeycomb to lock in its current oxidation state.", link: "https://minecraft-max.net/upload/webp/upload/iblock/c4e/c4e40b431465da9cc3d5500c346108bd.webp" },
+        { name: "Waxed Cut Copper", desc: "Cut copper that has been waxed to prevent it from turning green over time.", link: "https://minecraft-max.net/upload/webp/upload/iblock/f92/f9229019b0bf08555bb5a2be7d67f6da.webp" },
+        { name: "Waxed Cut Copper Slab", desc: "Waxed version of the cut copper slab, preserving its orange or weathered color.", link: "https://minecraft-max.net/upload/webp/upload/iblock/08b/08b2f38d5ea78638b853361d32c9aba2.webp" },
+        { name: "Waxed Cut Copper Stairs", desc: "Waxed copper stairs that will never oxidize further than their current stage.", link: "https://minecraft-max.net/upload/webp/upload/iblock/da6/da63d590df92fde24cb5c36a8b235054.webp" }
+    ];
+
+    function render(query = "") {
+        const out = document.getElementById('gallery');
+        const status = document.getElementById('status');
+        const loader = document.getElementById('loader');
+        
+        out.innerHTML = "";
+        
+        // Always show the loader briefly while processing
+        loader.classList.remove('hidden');
+
+        // Filter results: No limit, show all matching items
+        const filtered = query === "" 
+            ? RECIPES 
+            : RECIPES.filter(r => r.name.toLowerCase().includes(query.toLowerCase()));
+
+        filtered.forEach((recipe, index) => {
+            const card = document.createElement('div');
+            card.className = 'recipe-card';
+            // Stagger animation slightly for style, but set low so they feel immediate
+            card.style.animationDelay = `${index * 0.005}s`;
+            
+            card.innerHTML = `
+                <img src="${recipe.link}" class="recipe-img" alt="${recipe.name}" loading="lazy">
+                <h2>${recipe.name}</h2>
+                <p class="description">${recipe.desc}</p>
+            `;
+            out.appendChild(card);
+        });
+
+        // Update the status text and hide the spinner
+        status.innerText = query === "" ? `Full Database (${RECIPES.length} items)` : `${filtered.length} items found`;
+        loader.classList.add('hidden');
+    }
+
+    // Attach search event
+    document.getElementById('search').addEventListener('input', (e) => {
+        render(e.target.value);
+    });
+
+    // Initial Full Render
+    render();
+</script>
+<div id="cookie-banner" style="position:fixed; bottom:0; left:0; width:100%; background:rgba(0,0,0,0.9); color:#fff; padding:15px; text-align:center; z-index:9999; display:none; font-family: sans-serif; border-top: 2px solid #27ae60;">
+    <span style="font-size: 14px;">
+        Mc-Crafting-Guide uses cookies to ensure you get the best experience on our website. 
+        <a href="privacy-policy.html" style="color:#3498db; text-decoration:underline; margin-left: 5px;">Read Privacy Policy</a>
+    </span>
+    <button onclick="acceptCookies()" style="margin-left:20px; background:#27ae60; color:white; border:none; padding:8px 20px; cursor:pointer; border-radius:4px; font-weight:bold;">
+        Got it!
+    </button>
+</div>
+
+<script>
+    // Check if the user has already accepted cookies
+    window.onload = function() {
+        if (!localStorage.getItem('mc_cookies_accepted')) {
+            document.getElementById('cookie-banner').style.display = 'block';
+        }
+    };
+
+    // Function to hide banner and save preference
+    function acceptCookies() {
+        localStorage.setItem('mc_cookies_accepted', 'true');
+        document.getElementById('cookie-banner').style.display = 'none';
+    }
+</script>
+</div>
+
+<!-- ─── FOOTER ─────────────────────────── -->
+<footer>
+  <div style="font-size:2rem;margin-bottom:1rem">⛏️ 🌲 💎 🏰 🐉</div>
+  <p>MINECRAFT MASTER GUIDE · ALL VERSIONS 1.18 - 1.21</p>
+  <p style="margin-top:0.5rem">NOT AFFILIATED WITH MOJANG OR MICROSOFT</p>
+  <p style="margin-top:0.5rem;color:#2d4d2d">CRAFTED WITH ❤ · GOOD LUCK OUT THERE, MINER</p>
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Animate progress bars on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+          bar.style.width = bar.style.width;
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.build-card').forEach(card => observer.observe(card));
+
+  // Smooth scroll for nav pills
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+<script>
+function copySeed(btn, seed) {
+  navigator.clipboard.writeText(seed).then(() => {
+    btn.textContent = '✅ COPIED!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 COPY';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = seed;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✅ COPIED!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 COPY';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+<script>
+// ── Minecraft UI Click Sound (Web Audio API synthesis) ──────────────────
+let _audioCtx = null;
+
+function getMCAudioCtx() {
+  if (!_audioCtx) {
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (_audioCtx.state === 'suspended') _audioCtx.resume();
+  return _audioCtx;
+}
+
+function playMCClick() {
+  try {
+    const ctx = getMCAudioCtx();
+    const now = ctx.currentTime;
+
+    // ── Soft sine tone — warm rounded body ───────────────────────────
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(340, now);
+    osc.frequency.exponentialRampToValueAtTime(180, now + 0.12);
+
+    const oscGain = ctx.createGain();
+    oscGain.gain.setValueAtTime(0.0, now);
+    oscGain.gain.linearRampToValueAtTime(0.38, now + 0.008); // soft attack
+    oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+    // ── Sub harmonic — adds warmth and body ──────────────────────────
+    const sub = ctx.createOscillator();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(170, now);
+    sub.frequency.exponentialRampToValueAtTime(90, now + 0.12);
+
+    const subGain = ctx.createGain();
+    subGain.gain.setValueAtTime(0.0, now);
+    subGain.gain.linearRampToValueAtTime(0.18, now + 0.01);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+    // ── Very light noise — just a breath of texture, no crispiness ───
+    const bufLen = Math.floor(ctx.sampleRate * 0.04);
+    const buf    = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+    const d      = buf.getChannelData(0);
+    for (let i = 0; i < bufLen; i++) {
+      const t = i / bufLen;
+      // Gentle bell-curve shaped envelope on the noise
+      const env = Math.sin(t * Math.PI) * 0.5;
+      d[i] = (Math.random() * 2 - 1) * env;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buf;
+
+    // Low-pass to kill all harsh high frequencies — keeps it round
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 500;
+    lp.Q.value = 0.6;
+
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.value = 0.06; // barely there — just softens the attack
+
+    // ── Reverb-like tail using a convolver ────────────────────────────
+    const reverbLen  = Math.floor(ctx.sampleRate * 0.25);
+    const reverbBuf  = ctx.createBuffer(2, reverbLen, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const rd = reverbBuf.getChannelData(ch);
+      for (let i = 0; i < reverbLen; i++) {
+        rd[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / reverbLen, 4);
+      }
+    }
+    const convolver = ctx.createConvolver();
+    convolver.buffer = reverbBuf;
+
+    const reverbGain = ctx.createGain();
+    reverbGain.gain.value = 0.18; // subtle room warmth
+
+    // ── Master ────────────────────────────────────────────────────────
+    const master = ctx.createGain();
+    master.gain.value = 1.8;
+
+    // Routing: dry signal
+    osc.connect(oscGain);   oscGain.connect(master);
+    sub.connect(subGain);   subGain.connect(master);
+    noise.connect(lp);      lp.connect(noiseGain); noiseGain.connect(master);
+
+    // Routing: wet reverb tail (from main osc only)
+    oscGain.connect(convolver);
+    convolver.connect(reverbGain);
+    reverbGain.connect(master);
+
+    master.connect(ctx.destination);
+
+    const dur = 0.22;
+    osc.start(now);   osc.stop(now + dur);
+    sub.start(now);   sub.stop(now + dur);
+    noise.start(now); noise.stop(now + 0.045);
+  } catch (e) {
+    // Silently ignore if AudioContext unavailable
+  }
+}
+
+// ── Attach to every interactive element ───────────────────────────────────
+document.addEventListener('click', function (e) {
+  const el = e.target.closest(
+    'button, a, .nav-pill, .seed-tab-btn, .tab-btn, ' +
+    '.recipe-card, .seed-card, .build-card, .farm-card, ' +
+    '.card, .seed-copy-btn, [onclick]'
+  );
+  if (el) playMCClick();
+}, true);
+</script>
+
+
+<!-- ── YouTube Tutorial Modal ────────────────────────────────────── -->
+<div class="yt-modal-overlay" id="ytModalOverlay" onclick="closeYT(event)">
+  <div class="yt-modal" id="ytModal">
+    <div class="yt-modal-header">
+      <div class="yt-modal-title" id="ytModalTitle">FARM TUTORIAL</div>
+      <button class="yt-modal-close" onclick="closeYTBtn()">✕ CLOSE</button>
+    </div>
+    <div class="yt-iframe-wrap" id="ytFrameWrap"></div>
+  </div>
+</div>
+
+<script>
+function openYT(videoId, title) {
+  const overlay = document.getElementById('ytModalOverlay');
+  const wrap    = document.getElementById('ytFrameWrap');
+  const ttl     = document.getElementById('ytModalTitle');
+
+  ttl.textContent = '▶ ' + title;
+  wrap.innerHTML = '';
+
+  if (videoId && videoId.trim() !== '') {
+    // Extract video ID from full URL if needed
+    let vid = videoId.trim();
+    const urlMatch = vid.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+    if (urlMatch) vid = urlMatch[1];
+
+    wrap.innerHTML = `<iframe
+      src="https://www.youtube.com/embed/${vid}?autoplay=1&rel=0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>`;
+  } else {
+    wrap.innerHTML = `<div class="yt-no-video">
+      📺 NO TUTORIAL LINKED YET<br><br>
+      PROVIDE A YOUTUBE LINK<br>TO ENABLE THIS VIDEO
+    </div>`;
+  }
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeYTBtn() {
+  const overlay = document.getElementById('ytModalOverlay');
+  const wrap    = document.getElementById('ytFrameWrap');
+  overlay.classList.remove('open');
+  wrap.innerHTML = ''; // stops video
+  document.body.style.overflow = '';
+}
+
+function closeYT(e) {
+  if (e.target === document.getElementById('ytModalOverlay')) closeYTBtn();
+}
+
+// Close on Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeYTBtn(); });
+</script>
+
+</body>
+</html>
